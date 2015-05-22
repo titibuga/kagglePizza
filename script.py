@@ -61,9 +61,32 @@ clf = clf.fit(X[N/5:], target_data[N/5:])
 
 
 print clf.score(X[:N/5], target_data[:N/5])
-
 print "===============\n"
 
 
+# Let's now predict the test dataset 
+
+with open('test.json', 'r') as f:
+    test_data = json.load(f)
 
 
+print test_data[0].keys()
+test_ids = [t["request_id"] for t in test_data]
+#Remove ignored keys
+for k in ignoredKeys[1:]:
+    for d in test_data:
+        if k in d:
+            del d[k] 
+
+#Tranform the dataset in the format in which the tree was
+# trained and make the prediction
+
+X = vect.transform(test_data)
+testprobs = clf.predict_proba(X)
+f = open('testpredict.csv', 'w')
+
+f.write("request_id,requester_received_pizza\n");
+for i in range(len(testprobs)):
+    f.write(("{},{}\n").format(test_ids[i],testprobs[i][1]))
+
+f.close()
