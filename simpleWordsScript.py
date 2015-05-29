@@ -23,7 +23,7 @@ lancaster_stemmer = LancasterStemmer()
 
 
 for	d in training_data:
-	t = nltk.tokenize.word_tokenize(d["request_text"])
+	t = nltk.tokenize.word_tokenize(d["request_title"])
 	
 	for w in t:
 		w = w.lower()
@@ -38,12 +38,15 @@ for	d in training_data:
 		
 
 for w in words:
-	if words[w] > 9:
+	if words[w] > 5:
 		successgivenword[w] = words_success[w]/float(words[w])
 
-for w in sorted(successgivenword, key=successgivenword.get, reverse=True):
-	if successgivenword[w] < 0.2 or successgivenword[w] > 0.60:
-		print("\"%s\": %f," % (w, successgivenword[w]))
-		#print("\"%s\"," % (w))
+ff = open('simpleWords', 'w')
 		
+for w in sorted(successgivenword, key=successgivenword.get, reverse=True):
+	if successgivenword[w] < 0.45 or successgivenword[w] > 0.55:
+		print("\"%s\": %f," % (w, successgivenword[w]))
+		ff.write("\"%s\"," % (w))
+		
+ff.close()
 
