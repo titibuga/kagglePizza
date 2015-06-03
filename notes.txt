@@ -1,0 +1,22 @@
+Nayve bayes (tf-idf) Cross validation:
+0.501548957669
+Nayve bayes (tf-idf 1,5 char n-gram) cross validation:
+0.514214953519
+Nayve bayes (tf-idf 1,5 char n-gram, top 16% features with chi2) cross validation:
+0.659221604976
+Nayve bayes (tf-idf 1,2 word n-gram, top 16% features with chi2) cross validation:
+0.456667917367
+
+
+====================
+
+The addition of n-grams without any pre-processing didn't seem to help much
+
+
+
+===============
+
+Adding new features:
+- req_len: 0.61 (local)
+- year_after_20122: 0.64 (local)
+- both 2 + char 5-gram: 0.6851 (local) 0.65543 (leaderboard)

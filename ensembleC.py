@@ -6,7 +6,7 @@ class EnsembleClassifier:
     def __init__(self):
         self.classifiers = []
         # Pair [classifier,weight]
-        self.classifiers.append([RandomForestClassifier(), 0.5])
+        self.classifiers.append([RandomForestClassifier(n_estimators=100), 0.5])
         self.classifiers.append([LogisticRegression(C=0.1, penalty='l1'), 0.5])
 
     def fit(self, X, y):
