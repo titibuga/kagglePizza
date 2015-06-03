@@ -19,4 +19,4 @@ The addition of n-grams without any pre-processing didn't seem to help much
 Adding new features:
 - req_len: 0.61 (local)
 - year_after_20122: 0.64 (local)
-- both 2 + char 5-gram: 0.6851 (local) 0.65543 (leaderboard)
+- both 2 + char 5-gram: 0.6851 (local) 0.65543 (leaderboard), and 100 trees in the RF
