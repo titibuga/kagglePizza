@@ -1,3 +1,9 @@
+
+helpful sites:
+http://procrastinaty.com/machine-learning/python/scikit-learn/kaggle/2015/01/15/kaggle_pizza/
+
+
+==============
 Nayve bayes (tf-idf) Cross validation:
 0.501548957669
 Nayve bayes (tf-idf 1,5 char n-gram) cross validation:
@@ -20,3 +26,22 @@ Adding new features:
 - req_len: 0.61 (local)
 - year_after_20122: 0.64 (local)
 - both 2 + char 5-gram: 0.6851 (local) 0.65543 (leaderboard), and 100 trees in the RF
+
+
+
+==========
+
+
+Feature graph:
+(1):req_len: 0.189012
+(2):requester_account_age_in_days_at_request: 0.106688
+(3):requester_days_since_first_post_on_raop_at_request: 0.033225
+(4):requester_number_of_comments_at_request: 0.081028
+(5):requester_number_of_comments_in_raop_at_request: 0.028083
+(6):requester_number_of_posts_at_request: 0.074283
+(7):requester_number_of_posts_on_raop_at_request: 0.012584
+(8):requester_number_of_subreddits_at_request: 0.073775
+(9):requester_upvotes_minus_downvotes_at_request: 0.100545
+(10):requester_upvotes_plus_downvotes_at_request: 0.101660
+(11):unix_timestamp_of_request_utc: 0.199117
+

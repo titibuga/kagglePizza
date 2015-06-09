@@ -5,11 +5,16 @@ from random import shuffle
 from sklearn import tree
 from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import ExtraTreesClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import LinearSVC
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.pipeline import Pipeline
+import matplotlib.pyplot as plt
+import random
+from sklearn.feature_selection import RFE
+
 
 #### TEXT ####
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -78,7 +83,7 @@ featureKeys =  training_data[0].keys()
 for w in ignoredKeys:
     featureKeys.remove(w)
 
-shuffle(training_data)
+#shuffle(training_data)
 target_data = [x[targetKey] for x in training_data]
 
 #Add length of the message to the data set 
@@ -154,7 +159,7 @@ X = ftu.transform(training_data)
 
 ################### MODELS #####################
 
-clf = RandomForestClassifier()
+clf = RandomForestClassifier(n_estimators = 50)
 #neigh = KNeighborsClassifier(n_neighbors=5)
 #svc = SVC(probability = True)
 ## Naive bayes###
@@ -164,7 +169,7 @@ clf = RandomForestClassifier()
 #naiveBayes = MultinomialNB()
 
 ensemble = EnsembleClassifier()
-#logr = LogisticRegression(tol=1e-8, penalty='l1', C=0.1)
+logr = LogisticRegression(tol=1e-8, penalty='l1', C=1)
 
 
 
@@ -186,13 +191,71 @@ probs = clf.predict_proba(X[:N/5])
 probs = [ p[1] for p in probs]
 probs = np.array(probs)
 """
+#################
+
+"""
+
+### Calculating feature importance #####
+#
+#clf = ExtraTreesClassifier(n_estimators = 50)
+vect = DictVectorizer(sparse = False)
+basicTransf = BasicFeatureExtractor()
+basicData = basicTransf.transform(training_data)
+for b in basicData:
+    #del b['requester_upvotes_minus_downvotes_at_request']
+    b['random_n'] = random.uniform(0.0, 1.0)
+
+print basicData[0].keys()
+
+X = vect.fit_transform(basicData)
+print vect.get_feature_names()
+ftnames = [
+        'random',
+    'req_len',
+    'acc_age',
+    'days_fpost',
+    'n_cmts',
+    'n_cmts_raop',
+    'n_posts',
+    'n_post_raop',
+    'n_subreddits',
+    'up-d_votes',
+    'up+d_votes',
+    'timestamp',
+
+]
+estimator = SVC(kernel="linear")
+print "hi"
+selector = RFE(estimator, n_features_to_select=1, step=1)
+print "hi2"
+selector = selector.fit(X, target_data2)
+print "hi2"
+#clf = clf.fit(X, target_data2)
+#ftimport = clf.feature_importances_
+ftimport = selector.ranking_
 
 
-npizzas = 0
-for t in target_data2:
-    npizzas = npizzas + t
+for i in range(len(ftnames)):
+    print "(%d):%s: %f"%(i+1,ftnames[i],ftimport[i])
 
-print ("Pizzas:{} / {}\n").format(npizzas, len(target_data))
+bar_width = 0.35
+index = np.arange(len(ftimport))
+
+
+rects1 = plt.bar(index, ftimport, bar_width)
+
+plt.xticks(index + bar_width/2,ftnames)
+plt.tight_layout()
+plt.show()
+
+
+
+
+exit()
+
+
+###################################
+"""
 
 
 
@@ -220,7 +283,7 @@ print np.array(aucs).mean()
 #Just to stop the execution at this point...I don't want it
 #to execute the rest of the code everytime (I should put these
 #things in functions...)
-#exit()
+exit()
 ######################
 
 

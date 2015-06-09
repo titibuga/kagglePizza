@@ -28,7 +28,7 @@ class BasicFeatureExtractor:
                           # 'requester_username',
                           # 'unix_timestamp_of_request',
                            'requester_upvotes_plus_downvotes_at_request',
-                          # 'unix_timestamp_of_request_utc',
+                           'unix_timestamp_of_request_utc',
                            'requester_number_of_posts_at_request',
                           # 'request_text_edit_aware',
                           # 'request_id',
@@ -48,7 +48,7 @@ class BasicFeatureExtractor:
                     d2[k] = d[k]
                 #Text lengt
                 d2['req_len'] = self.req_len(d)
-                d2['years_after_2011'] = self.years_after_2011(d)
+               # d2['years_after_2011'] = self.years_after_2011(d)
                 
             data2.append(d2);
                 
@@ -70,7 +70,8 @@ class BasicFeatureExtractor:
     def years_after_2011(self,sample):
         timestamp = sample['unix_timestamp_of_request_utc']
         date = datetime.fromtimestamp(timestamp)
-        return date.year - 2011
+       # return date.year - 2011
+        return timestamp
 
 
 
