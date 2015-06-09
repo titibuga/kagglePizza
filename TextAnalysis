@@ -1,0 +1,13 @@
+bigrams:
+    [u'papa johns', u'verification code', u'title says', u'http imgur', u'return favor', u'greatly appreciated', u'gift card', u'haven eaten', u'bank account', u'greatly appreciate', u'thanks advance', u'college student', u'promise forward', u'thanks reading', u'food stamps', u'couple days', u'long story', u'forward soon', u'feel like', u'paid friday']
+
+trigrams:
+    [u'broke college student', u'thanks reading request']
+
+bigrams + trigrams (tokenized)
+    [[u'request', u'colorado', u'springs', u'help', u'need', u'food', u'children', u'military', u'family', u'hard', u'times', u'exahusted', u'means', u'help', u'able', u'feed', u'family', u'night', u'know', u'blessing', u'coming', u'heart', u'greatly_appreciated'], [u'request', u'california', u'cash', u'dinner', u'spent_money', u'today', u'broke', u'thursday']]
+
+
+
+
+
