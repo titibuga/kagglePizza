@@ -1,3 +1,5 @@
+#with inspiration from http://hackersome.com/p/piskvorky/gensim/watchers
+
 import logging, json
 import itertools
 from gensim.utils import simple_preprocess
