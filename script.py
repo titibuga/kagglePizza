@@ -129,10 +129,12 @@ messagesX = vect.fit_transform(messages)
 messagesX = select.fit_transform(messagesX, target_data2)
 """
 
+#### Feature Extraction
+nGramSize = 5
 messageParser = Pipeline([
     ('messagesExtr', MessagesExtractor()),
     #('vect', CountVectorizer()),
-    ('tfidf', TfidfVectorizer(ngram_range=(1, 5), analyzer="char", stop_words='english')),
+    ('tfidf', TfidfVectorizer(ngram_range=(nGramSize, nGramSize), analyzer="char", stop_words='english')),
     ('select', LinearSVC(C=1, penalty="l1", dual=False)),
     ('dim_red', TruncatedSVD(n_components=100, random_state=42)),
 ])
@@ -143,54 +145,39 @@ basicFeatureParser = Pipeline([
     #('norm', Normalizer()),
    
 ])
-
 ftUnion = FeatureUnion(
     transformer_list=[
         ('basic_ft', basicFeatureParser),
-        ('message_ft', messageParser),
+        #('message_ft', messageParser),
     ]
 )
 
 ftu = ftUnion.fit(training_data, target_data2)
-X = ftu.transform(training_data) 
+X = ftu.transform(training_data)
+
 
 
 
 
 ################### MODELS #####################
 
-clf = RandomForestClassifier(n_estimators = 50)
-#neigh = KNeighborsClassifier(n_neighbors=5)
-#svc = SVC(probability = True)
-## Naive bayes###
-
-#### Naive Bayes
-
+rf = RandomForestClassifier(n_estimators = 50, oob_score=True, min_samples_leaf =30)
+neigh = KNeighborsClassifier(n_neighbors=5)
+svc = SVC(probability = True)
 #naiveBayes = MultinomialNB()
-
 ensemble = EnsembleClassifier()
 logr = LogisticRegression(tol=1e-8, penalty='l1', C=1)
 
-
-
-
 #############################################
+
+#CHOOSE HERE THE MODEL YOU WANT TO USE
+clf = rf
 
 
 
 #target_data2 = np.array([1 if t else 0 for t in target_data])
 #scores = cross_validation.cross_val_score(clf, X, target_data2, scoring="roc_auc" , cv=10)
-"""
-clf = clf.fit(X[N/5:], target_data[N/5:])
-#neigh = neigh.fit(X[N/5:], target_data[N/5:])
-#svc = svc.fit(X[N/5:], target_data[N/5:])
 
-
-probs = clf.predict_proba(X[:N/5])
-probs = clf.predict_proba(X[:N/5])
-probs = [ p[1] for p in probs]
-probs = np.array(probs)
-"""
 #################
 
 """
@@ -259,35 +246,24 @@ exit()
 
 
 
-#print metrics.roc_auc_score(target_data2, probs)
-
-
-
-#model = linear_model.LogisticRegression(C=0.1, penalty='l1')
 
 ################ K-FOLD CROSS-VALID ###################
 
 
 aucs = myCrossValid(ensemble,X,target_data2)
-#aucs = cross_validation.cross_val_score(logr, 
-               #          X, target_data2, cv=5, n_jobs=4, scoring='roc_auc')
+print "Cross-validation AUC:\n"
+print np.array(aucs).mean()
 
 #################################################
 
-print "Cross-validation Accuracy:\n"
-print np.array(aucs).mean()
 
 
 
-#### Temporary exit ####
-#Just to stop the execution at this point...I don't want it
-#to execute the rest of the code everytime (I should put these
-#things in functions...)
-exit()
-######################
+##### OOB ERROR ####
+#Uncomment for the OOB error in Random Forests
+#clf.fit(X,target_data2)
+#print "OOB score: %f"%(clf.oob_score_)
 
-
-clf = ensemble
 
 
 #print vect.get_feature_names()
