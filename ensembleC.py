@@ -6,8 +6,8 @@ class EnsembleClassifier:
     def __init__(self):
         self.classifiers = []
         # Pair [classifier,weight]
-        self.classifiers.append([RandomForestClassifier(n_estimators=100), 0.5])
-        self.classifiers.append([LogisticRegression(C=0.1, penalty='l1'), 0.5])
+        self.classifiers.append([RandomForestClassifier(n_estimators=50, min_samples_leaf =30), 0.6])
+        self.classifiers.append([LogisticRegression(C=1, penalty='l1'), 0.4])
 
     def fit(self, X, y):
         for c in self.classifiers:
@@ -27,5 +27,5 @@ class EnsembleClassifier:
             predTemp = classifier.predict_proba(X)
             for i in range(len(X)):
                 for j in range(len(preds[i])):
-                    preds[i][j] = preds[i][j]+ w*predTemp[i][j]/totW  
+                    preds[i][j] = preds[i][j]+ w*predTemp[i][j]/float(totW)  
         return preds;

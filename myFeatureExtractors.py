@@ -97,6 +97,7 @@ class MessagesExtractor:
                 if kaware in d:
                     result.append(d[kaware])
                 else:
+                    print "WAAAAT"
                     result.append[" "]
             if ktitle in d:
                 result[-1] += " "+d[ktitle]           
